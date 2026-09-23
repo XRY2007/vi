@@ -1,31 +1,35 @@
-import cv2
+from PIL import Image
 import matplotlib.pyplot as plt
 
-# a. 图片左右翻转函数
-def flip_left_right(img):
+def flip_left_right(input_img):
     """
-    输入图片，返回左右翻转后的图片
+    a. 图片左右翻转函数
+    :param input_img: 输入一张图片对象
+    :return: 左右翻转完成后的图片对象
     """
-    flipped_img = cv2.flip(img, flipCode=1)
-    return flipped_img
+    # 执行左右翻转
+    flipped_image = input_img.transpose(Image.FLIP_LEFT_RIGHT)
 
-if __name__ == "__main__":
-    # 读取图片
-    img_path = "test.jpg"
-    origin_img = cv2.imread(img_path)
-    origin_img = cv2.cvtColor(origin_img, cv2.COLOR_BGR2RGB)
-    
-    # 调用翻转函数
-    flip_img = flip_left_right(origin_img)
+    # b. 同时展示原图 和 翻转后的图片
+    plt.figure(figsize=(10, 4))
 
-    # b. 同时显示原图和翻转后的图片
-    plt.figure(figsize=(10,4))
-    plt.subplot(1,2,1)
-    plt.title("Original 原图")
-    plt.imshow(origin_img)
+    # 左边：原图
+    plt.subplot(1, 2, 1)
+    plt.title("Original Image")
+    plt.imshow(input_img)
+    plt.axis("off")
 
-    plt.subplot(1,2,2)
-    plt.title("Flipped 左右翻转")
-    plt.imshow(flip_img)
+    # 右边：翻转图
+    plt.subplot(1, 2, 2)
+    plt.title("Flipped Image (Left-Right)")
+    plt.imshow(flipped_image)
+    plt.axis("off")
 
     plt.show()
+    return flipped_image
+
+
+if __name__ == "__main__":
+    # 读取同目录下的图片 test.jpg
+    img = Image.open("test.jpg")
+    result_img = flip_left_right(img)
